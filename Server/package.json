@@ -1,0 +1,17 @@
+{
+  "name": "privacy-patch",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./app.js",
+  "scripts": {
+    "start": "node ./app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.14.1",
+    "compression": "^1.6.0",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "stripe": "^4.0.0"
+  }
+}

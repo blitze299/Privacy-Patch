@@ -1,0 +1,23 @@
+{
+  "name": "privacy-patch",
+  "description": "",
+  "main": "bin/www",
+  "authors": [
+    "Moritz <moritz.gehlhaar@posteo.de>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "materialize": "~0.97.1",
+    "material-design-icons": "~2.0.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,96 @@
+extends layout
+
+block content
+    .container
+        br
+        .row
+            .col.s1
+                br
+                a.btn-floating.btn.waves-effect.waves-light.green(href='..')
+                    i.material-icons arrow_back
+            .col.s11
+                h3 Step #{step}/3
+        .progress
+            .determinate(style='width: #{step * 30}%')
+        case step
+            when 1
+                h5 Fist of all: select your phone manufacturer:
+                ul.collection
+                    each manufacturer in manufacturers
+                        li.collection-item.avatar
+                            img.circle(src='/img/manufacturer/#{manufacturer.logo}')
+                            span.title #{manufacturer.name}
+                            p #{manufacturer.phones.length} models
+                            a.secondary-content.green-text(href='/patch/#{manufacturer.name}/')
+                                i.material-icons send
+            when 2
+                ul.collection
+                    each phone in phones
+                        li.collection-item
+                            div
+                                | #{phone.name}
+                                a.secondary-content.green-text(href='/patch/#{manufacturer.name}/#{phone.name}/')
+                                    i.material-icons send
+            when 3
+                .row
+                    .col.s12.l9
+                        h3 #{phone.name}
+                        if phone.description
+                            p= phone.description
+                            br
+                        if phone.files
+                            h4 Downloads
+                            ul.collection
+                                each file in phone.files
+                                    li.collection-item
+                                        div
+                                            | #{file.name}
+                                            a.secondary-content(href='/files/#{file.filename}'): i.material-icons.green-text file_download
+                            br
+                        if phone.price
+                            h4 Order this from a Fab lab
+                            p If you have not the experience or time to build the Privacy Patch by yourself, you can order it here from cooperative Fab labs.
+                            button#pay.waves-effect.waves-light.btn.green
+                                | Purchase for #{phone.price}.00 €
+                                i.material-icons.right payment
+                            br
+                        if phone.sketchfabid
+                            h4 Model on Sketchfab
+                            iframe(width='100%', height='480', src='https://sketchfab.com/models/#{phone.sketchfabid}/embed', frameborder='0', allowfullscreen='', mozallowfullscreen='true', webkitallowfullscreen='true', onmousewheel='')
+                            br
+                    .col.s12.l3
+                        img.responsive-img.materialboxed(src='/img/phone/#{phone.image}')
+
+block footer
+    if step === 3
+        // TODO
+        script(src='/third-party/checkout.js')
+        script.
+            var amount = #{phone.price * 100};
+
+            var handler = StripeCheckout.configure({
+                key: '#{process.env.STRIPE_PK}',
+                image: '/img/phone/#{phone.image}',
+                locale: 'auto',
+                token: function (token) {
+                    token.amount = amount;
+                    $.post('/pay', token, function () {
+                        window.alert('Payment successful. Your order will be checked soon …')
+                    });
+                }
+            });
+            $('#pay').on('click', function (e) {
+                handler.open({
+                    name: 'Privacy Patch',
+                    description: 'for a #{manufacturer.name} #{phone.name}',
+                    currency: "eur",
+                    bitcoin: true,
+                    shippingAddress: true,
+                    amount: amount
+                });
+                e.preventDefault();
+            });
+
+            $(window).on('popstate', function () {
+                handler.close();
+            });

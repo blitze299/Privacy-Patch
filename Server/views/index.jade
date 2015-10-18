@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    .slider
+        ul.slides
+            li
+                img(src='/img/IMG_20151017_164454.jpg')
+                .caption.left-align
+                    h3 Block your camera.
+                    h5.light.grey-text.text-lighten-3 Protect your Privacy!
+            li
+                img(src='/img/IMG_20151017_125034.jpg')
+                .caption.right-align
+                    h3 Beautiful printed cases
+                    h5.light.grey-text.text-lighten-3 made with love
+    .container
+        h4 Getting started
+        p Privacy Patch is a concept for a phone case, which blocks the camera on smartphones physically if no trusted app is used.
+        p This should stop the spying of any apps, which has the enough permissions to use the camera in any situation …
+        a.waves-effect.waves-light.btn-large.green(href='/patch/')
+            | Let's start
+            i.material-icons.right send
